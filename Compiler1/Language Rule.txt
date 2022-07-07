@@ -1,0 +1,29 @@
+
+EBNF language definition
+
+<program> -> {<function>}
+<function> -> <type> id '(' { <type> id } ')' '{' {<command>} '}'
+<type> -> int
+<command> -> <decl> | <stmt> | '{' {<command>} '}'
+<decl> -> <type> id [ = <expr> ] ;
+
+<stmt> -> <assign> | <if> | <while> | <for> | <read> | <write>
+<assign> -> id = <expr> ;
+<if> -> if '( <expr> ')' <command>
+<while> -> while '( <expr> ')' <command>
+<for> -> for '( <decl> <expr> ; <assign> ')' <command>
+<read> -> read id ;
+<write> -> write id ;
+
+<expr> -> <expr1> { '|''|' <expr1> }
+<expr1> -> <expr2> { && <expr2> }
+<expr2> -> <expr3> { '|' <expr3> }
+<expr3> -> <expr4> { ^ <expr4> }
+<expr4> -> <expr5> { & <expr5> }
+<expr5> -> <expr6> { == <expr6> | != <expr6> }
+<expr6> -> <expr7> { '<' <expr7> | '>' <expr7> | '<'= <expr7> | '>'= <expr7> }
+<expr7> -> <expr8> { '<''<' <expr8> | '>''>' <expr8> }
+<expr8> -> <expr9> { + <expr9> | - <expr9> }
+<expr9> -> <expr10> { * <expr10> | / <expr10> | % <expr10> }
+<expr10> -> <expr11> | +<expr11> | -<expr11> | ~<expr11> | !<expr11>
+<expr11> -> number | id | '(' <expr> ')'
