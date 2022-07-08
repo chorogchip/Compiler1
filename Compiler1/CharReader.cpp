@@ -8,7 +8,7 @@ CharReader::~CharReader() {}
 char CharReader::getC() {
     char c = this->c_;
     istr_.read(&c_, 1);
-    std::cout << "read :" << (int)c_ << "\n";
+    //std::cout << "read :" << (int)c_ << "\n";
     return c;
 }
 EnumCharType CharReader::getNextCharType() const {

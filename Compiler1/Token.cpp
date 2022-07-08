@@ -23,6 +23,9 @@ bool Token::operator==(const Token& t) const {
 bool Token::typeIsEquals(EnumTokenType type) const {
     return this->type_ == type;
 }
+bool Token::typeIsEquals(const Token& t) const {
+    return this->type_ == t.type_;
+}
 bool Token::stringIsEquals(const char* str) const {
     int s = this->val_.size();
     int i;
@@ -30,7 +33,4 @@ bool Token::stringIsEquals(const char* str) const {
         if (this->val_[i] != str[i])
             return false;
     return str[i] == '\0';   
-}
-std::ostream& operator<<(std::ostream& ostr, const Token& t) {
-    return ostr << "type:[" << (int)t.type_ << "] / val:[" << t.val_ << "]\n";
 }

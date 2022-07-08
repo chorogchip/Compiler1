@@ -53,7 +53,10 @@ public:
     ~Token();
     bool operator==(const Token& t) const;
     bool typeIsEquals(EnumTokenType type) const;
+    bool typeIsEquals(const Token& t) const;
     bool stringIsEquals(const char* str) const;
     friend std::ostream& operator<<(std::ostream& ostr, const Token& t);
 };
-std::ostream& operator<<(std::ostream& ostr, const Token& t);
+std::ostream& operator<<(std::ostream& ostr, const Token& t) {
+    return ostr << "type:[" << (int)t.type_ << "] / val:[" << t.val_ << "] ";
+}
