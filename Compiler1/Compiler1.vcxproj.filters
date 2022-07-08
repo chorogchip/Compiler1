@@ -24,12 +24,21 @@
     <ClCompile Include="Token.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CharReader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LexialAnalyzer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CharReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilChar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

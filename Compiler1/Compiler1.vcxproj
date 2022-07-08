@@ -127,11 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharReader.cpp" />
     <ClCompile Include="Compiler1.cpp" />
     <ClCompile Include="LexialAnalyzer.cpp" />
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharReader.h" />
+    <ClInclude Include="UtilChar.h" />
     <ClInclude Include="LexialAnalyzer.h" />
     <ClInclude Include="Token.h" />
   </ItemGroup>
