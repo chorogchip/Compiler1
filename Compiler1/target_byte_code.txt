@@ -1,0 +1,105 @@
+
+target byte code to which input program will compiled
+
+there is no stack or heap or data.
+but only static address memory exists.
+all memory and data types are 32 bit.
+
+every byte code has 80 bit length.
+8 bit - operation
+4 bit - empty
+2 bit - operand2 pointer count
+2 bit - operand1 pointer count
+32 bit - operand1
+32 bit - operand2
+
+if the pointer count is 0, then operand means const number.
+if the pointer count is 1, then operand means address of variable.
+if the pointer count is 2, then operand means address of pointer variable.
+...
+
+before the array of codes, 1 integer of 32bit is given.
+that integer means total size of memory which will be used.
+if a number equal or bigger than that number above is used as variable address,
+the program explodes.
+for example, if number '80' is given at the first position,
+0, 1, 2, ...,79 is available for variable address. but 80, 81, ... is not available.
+
+<operation> ->
+	<name> [<operand1>] [<operand2>] [; <comment>]
+<value> ->
+	<const> | <address>
+<const> -> 0-9 (32bit decimal)
+<address> -> 0-9 (32bit decimal)
+
+<operations>
+0x01 nop ; do nothing
+0x02 end ; end program
+
+0x11 jmp <address> ; jump to address
+0x12 jif <address> <value> ; jump to address if value is not 0
+0x12 jnf <address> <value> ; jump to address if value is 0
+
+0x21 mov <address> <value> ; move value to address
+
+0x31 neg <address> ; negate address
+0x32 not <address> 
+
+0x41 add <address> <value> ; add value to address
+0x42 sub <address> <value>
+0x43 mul <address> <value>
+0x44 div <address> <value>
+0x45 mod <address> <value>
+0x46 shl <address> <value>
+0x47 shr <address> <value>
+0x48 and <address> <value>
+0x49 orr <address> <value>
+0x4A xor <address> <value>
+
+0x61 eql <value> <value> ; if equal then value1 = 1 else value1 = 0
+0x62 neq <value> <value> ; if equal then value1 = 0 else value1 = 1
+0x63 cmp <value> <value> ; if value1 < value2 then value1 = 1 else value1 = 0
+0x64 cme <value> <value> ; if value1 <= value2 then value1 = 1 else value1 = 0
+
+0x91 rdi <address> ; read int value and store in address
+0x92 get <address> <value> read char and store starting from address
+					  until '\n' is put or char count is over value
+0x93 wri <value> ; write int value
+0x94 wrc <value> ; write char value
+0x95 put <address> <value> ; write char values whose count is value
+
+example program
+hello.cpp
+
+cin >> n;
+for (int i = 2; i * i <= n; ++i)
+	if (n % i == 0) goto N;
+cout << 1;
+goto E;
+N: cout << 0;
+E:;
+
+hello.cmp1bytec
+
+0x01: rdi *1
+0x02: mov *2 2
+0x03: mov *3 *2
+0x04: mov *4 *3
+0x05: mul *4 *3
+0x06: cme *4 *1
+0x07: jnf 13 *4
+0x08: mov *5 *1
+0x09: mod *5 *2
+0x0A: jnf 15 *5
+0x0B: add *2 1
+0x0C: jmp 3
+0x0D: wri 1
+0x0E: jmp 16
+0x0F: wri 0
+0x10: end
+
+hello.cmp1byte
+
+0x91 0x01 0x00000001 0x00000000
+0x21 0x01 0x00000002 0x00000002
+...
