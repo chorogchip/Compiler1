@@ -1,11 +1,94 @@
 
 EBNF language definition
 
-<program> -> {<function>}
-<function> -> <type> id '(' { <type> id } ')' '{' {<command>} '}'
+<program> -> {<command>}
+<command> -> <decl> | <stmt> | <block>
+<block> -> '{' { <command> }  '}'
+<decl> -> <type> <id> : <number> ;
 <type> -> int
-<command> -> <decl> | <stmt> | '{' {<command>} '}'
+<id> -> ('A'-'Z') | ('a'-'z') | '_' { ('A'-'Z') | ('a'-'z') | '_' | '0'-'9' }
+<number> -> ('0'-'9') { ('0'-'9') }
+
+<stmt> -> <assign> | <if> | <while> | <for> | <read> | <write> | <writec> | <goto> | <label>
+<assign> -> <id> = <expr> ;
+<if> -> if '( <expr> ')' <command>
+<while> -> while '( <expr> ')' <command>
+<for> -> for '(' <decl> ; <assign> ; <expr> ; <assign> ')' <command>
+<read> -> read <id> ;
+<write> -> write <expr> ;
+<writec> -> writec <expr> ;
+<goto> -> goto <id> ;
+<label> -> <id> :
+
+<expr> -> <expr1> { '|''|' <expr1> }
+<expr1> -> <expr2> { && <expr2> }
+<expr2> -> <expr3> { '|' <expr3> }
+<expr3> -> <expr4> { ^ <expr4> }
+<expr4> -> <expr5> { & <expr5> }
+<expr5> -> <expr6> { == <expr6> | != <expr6> }
+<expr6> -> <expr7> { '<' <expr7> | '>' <expr7> | '<'= <expr7> | '>'= <expr7> }
+<expr7> -> <expr8> { '<''<' <expr8> | '>''>' <expr8> }
+<expr8> -> <expr9> { + <expr9> | - <expr9> }
+<expr9> -> <expr10> { * <expr10> | / <expr10> | % <expr10> }
+<expr10> -> <expr11> | +<expr11> | -<expr11> | ~<expr11> | !<expr11>
+<expr11> -> <expr12> | *<expr12> | &<expr12>
+<expr12> -> <number> | <id> | '(' <expr> ')'
+
+
+<example_isprime.cmp1c>
+
+int n : 1;
+read n;
+for (int i : 2; i = 2; i * i < n; i += 1) {
+	if (n % i == 0) 
+		goto NO;
+}
+write 1;
+goto E;
+NO:
+write 0;
+E:
+
+<example_sieve.cmp1c>
+
+int n : 1;
+read n;
+int C : 100;
+int Cend : 1000;
+for (int i : 2; i = 1; i <= n; i += 1)
+	*(C + i) = 0;
+for (int i : 2; i = 2; i * i <= n; i += 1)
+	if (*(C + i) == 0) {
+		for (int j : 3; j = i * i; j <= n; j += i)
+			*(C + j) = 1;
+		write i;
+		writec 10;
+	}
+writec 65 + 4;
+writec 65 + 13;
+writec 65 + 3;
+writec 10;
+
+
+/*
+previous definition :
+	there was error that <ret> cannot come inside block,
+	and function cannot located in expr.
+	due to function, language definition and implmentation got hard.
+	and i didn't want to use stack or heap memory in byte code.
+	in byte code, just static address memory is used.
+	so implementing function as that byte code would go little weird.
+	so i decided to delete function from this language
+	and fastly make compiler.
+	after this project, i'll study more and make more complex compiler.
+
+<program> -> {<function>}
+<function> -> <type> id '(' { <type> id } ')' '{' { <command> | <ret> } '}'
+<type> -> int
+<command> -> <decl> | <stmt> | <block>
+<block> -> '{' { <command> }  '}'
 <decl> -> <type> id [ = <expr> ] ;
+<ret> -> return [ <expr> ] ;
 
 <stmt> -> <assign> | <if> | <while> | <for> | <read> | <write>
 <assign> -> id = <expr> ;
@@ -27,4 +110,4 @@ EBNF language definition
 <expr9> -> <expr10> { * <expr10> | / <expr10> | % <expr10> }
 <expr10> -> <expr11> | +<expr11> | -<expr11> | ~<expr11> | !<expr11>
 <expr11> -> number | id | '(' <expr> ')'
-
+*/

@@ -57,6 +57,3 @@ public:
     bool stringIsEquals(const char* str) const;
     friend std::ostream& operator<<(std::ostream& ostr, const Token& t);
 };
-std::ostream& operator<<(std::ostream& ostr, const Token& t) {
-    return ostr << "type:[" << (int)t.type_ << "] / val:[" << t.val_ << "] ";
-}

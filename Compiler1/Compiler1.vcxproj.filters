@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="헤더 파일\parsetree">
-      <UniqueIdentifier>{1db612e2-4a12-44c9-ba4d-5324cca0e32f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler1.cpp">
@@ -51,7 +48,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ParseTreeComponents.h">
-      <Filter>헤더 파일\parsetree</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
