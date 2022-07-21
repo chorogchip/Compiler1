@@ -1,7 +1,7 @@
 
 EBNF language definition
 
-<program> -> {<command>}
+<program> -> { <command> }
 <command> -> <decl> | <stmt> | <block>
 <block> -> '{' { <command> }  '}'
 <decl> -> <type> <id> : <number> ;

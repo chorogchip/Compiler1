@@ -16,11 +16,10 @@ Token LexialAnalyzer::getToken() {
     case EnumCharType::DIGIT:     return Token(EnumTokenType::T_LITERAL_INT, this->readDigit());
     case EnumCharType::ALPHABET:
         return filterKeywordsFromAlphabetToken(
-            Token(EnumTokenType::T_VARIABLE, this->readAlphabet())
-        );
-    case EnumCharType::SYMBOL:            return this->readSymbol();
-    case EnumCharType::ERROR: return Token(EnumTokenType::T_ERROR_ON_READER, cr_.getC());
-    default:                  return Token(EnumTokenType::T_ERROR_ON_ANALYZER, cr_.getC());
+            Token(EnumTokenType::T_VARIABLE, this->readAlphabet()));
+    case EnumCharType::SYMBOL: return this->readSymbol();
+    case EnumCharType::ERROR:  return Token(EnumTokenType::T_ERROR_ON_READER, cr_.getC());
+    default:                   return Token(EnumTokenType::T_ERROR_ON_ANALYZER, cr_.getC());
     }
     return Token(EnumTokenType::T_ERROR_ON_ANALYZER);
 }
@@ -46,10 +45,12 @@ Token LexialAnalyzer::filterKeywordsFromAlphabetToken(Token&& t) {
     else if (t.stringIsEquals("for"))      return Token(EnumTokenType::T_FOR);
     else if (t.stringIsEquals("while"))    return Token(EnumTokenType::T_WHILE);
     else if (t.stringIsEquals("do"))       return Token(EnumTokenType::T_DO);
-    else if (t.stringIsEquals("function")) return Token(EnumTokenType::T_FUNCTION);
-    else if (t.stringIsEquals("return"))   return Token(EnumTokenType::T_RETURN);
+    else if (t.stringIsEquals("goto"))       return Token(EnumTokenType::T_GOTO);
+    //else if (t.stringIsEquals("function")) return Token(EnumTokenType::T_FUNCTION);
+    //else if (t.stringIsEquals("return"))   return Token(EnumTokenType::T_RETURN);
     else if (t.stringIsEquals("read"))     return Token(EnumTokenType::T_READ);
     else if (t.stringIsEquals("write"))    return Token(EnumTokenType::T_WRITE);
+    else if (t.stringIsEquals("writec"))    return Token(EnumTokenType::T_WRITEC);
     else return t;
 }
 Token LexialAnalyzer::readSymbol() {
@@ -59,7 +60,7 @@ Token LexialAnalyzer::readSymbol() {
     case '|': if (cr_.nextCharIs('|')) return Token(EnumTokenType::T_OPERATION_BIN, ret + cr_.getC());
               else return Token(EnumTokenType::T_OPERATION_BIN, ret);
     case '&': if (cr_.nextCharIs('&')) return Token(EnumTokenType::T_OPERATION_BIN, ret + cr_.getC());
-            else return Token(EnumTokenType::T_OPERATION_BIN, ret);
+            else return Token(EnumTokenType::T_OPERATION_BOTH, ret);
     case '^': return Token(EnumTokenType::T_OPERATION_BIN, ret);
     case '>': if (cr_.nextCharIs('=')) return Token(EnumTokenType::T_OPERATION_BIN, ret + cr_.getC());
          else if (cr_.nextCharIs('>')) return Token(EnumTokenType::T_OPERATION_BIN, ret + cr_.getC());
@@ -73,19 +74,20 @@ Token LexialAnalyzer::readSymbol() {
             else return Token(EnumTokenType::T_ASSIGN, ret);
     case '+': return Token(EnumTokenType::T_OPERATION_BOTH, ret);
     case '-': return Token(EnumTokenType::T_OPERATION_BOTH, ret);
-    case '*': return Token(EnumTokenType::T_OPERATION_BIN, ret);
+    case '*': return Token(EnumTokenType::T_OPERATION_BOTH, ret);
     case '/': return Token(EnumTokenType::T_OPERATION_BIN, ret);
     case '%': return Token(EnumTokenType::T_OPERATION_BIN, ret);
     case '~': return Token(EnumTokenType::T_OPERATION_UN, ret);
 
     case '(': return Token(EnumTokenType::T_PAREN_L, ret);
     case ')': return Token(EnumTokenType::T_PAREN_R, ret);
-    case '{': return Token(EnumTokenType::T_BRACKET_L, ret);
-    case '}': return Token(EnumTokenType::T_BRACKET_L, ret);
-    case '[': return Token(EnumTokenType::T_BRACE_L, ret);
-    case ']': return Token(EnumTokenType::T_BRACE_L, ret);
+    case '{': return Token(EnumTokenType::T_BRACE_L, ret);
+    case '}': return Token(EnumTokenType::T_BRACE_R, ret);
+    //case '[': return Token(EnumTokenType::T_BRACKET_L, ret);
+    //case ']': return Token(EnumTokenType::T_BRACKET_R, ret);
 
-    case ',': return Token(EnumTokenType::T_COMMA, ret);
+    //case ',': return Token(EnumTokenType::T_COMMA, ret);
+    case ':': return Token(EnumTokenType::T_COLON, ret);
     case ';': return Token(EnumTokenType::T_SEMICOLON, ret);
     default:  return Token(EnumTokenType::T_ERROR_ON_ANALYZER, ret);
     }

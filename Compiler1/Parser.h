@@ -8,17 +8,18 @@ private:
     Token token_;
     std::ostream& errout_;
 
-    void startParse();
+    void start_parse();
     Token match(EnumTokenType type);
     Token match(Token token);
+    void get_next_token();
     
     void error();
     void error(const char* message);
     void error(const char* message, EnumTokenType type);
     void error(const char* message, Token token);
 
-    void parse_function();
     void parse_command();
+    void parse_expr();
 
 public:
     Parser(LexialAnalyzer& lexer, std::ostream& error_output_stream);

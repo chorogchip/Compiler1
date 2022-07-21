@@ -12,15 +12,16 @@ enum class EnumTokenType {
     T_OPERATION_BOTH, // can be unary or binary
     //T_OPERATION_TRI,
     T_ASSIGN,
+    T_COLON,
 
     T_PAREN_L,
     T_PAREN_R,
-    T_BRACKET_L,
-    T_BRACKET_R,
     T_BRACE_L,
     T_BRACE_R,
+    //T_BRACKET_L,
+    //T_BRACKET_R,
 
-    T_COMMA,
+    //T_COMMA,
     T_SEMICOLON,
     T_EOF,
 
@@ -29,12 +30,14 @@ enum class EnumTokenType {
     T_FOR,
     T_WHILE,
     T_DO,
+    T_GOTO,
 
-    T_FUNCTION,
-    T_RETURN,
+    //T_FUNCTION,
+    //T_RETURN,
 
     T_READ,
     T_WRITE,
+    T_WRITEC,
 
     T_ERROR_ON_READER,
     T_ERROR_ON_ANALYZER,
