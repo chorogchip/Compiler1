@@ -11,7 +11,7 @@ EBNF language definition
 
 <stmt> -> <assign> | <if> | <while> | <for> | <read> | <write> | <writec> | <goto> | <label>
 <assign> -> <id> = <expr> ;
-<if> -> if '( <expr> ')' <command>
+<if> -> if '( <expr> ')' <command> [ else ( <if> | <command> ) ]
 <while> -> while '( <expr> ')' <command>
 <for> -> for '(' <decl> ; <assign> ; <expr> ; <assign> ')' <command>
 <read> -> read <id> ;

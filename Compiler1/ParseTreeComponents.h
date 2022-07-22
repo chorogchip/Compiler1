@@ -1,113 +1,162 @@
 #pragma once
 #include<vector>
 #include<string>
+#include<any>
 
 namespace psc {
-using namespace std;
-
-struct Program {
-    vector<Function> functions;
-};
-struct Function {
-    EnumType returnType;
-    vector<Variable> inputs;
-    vector<Command> commands;
-};
-struct Command {
-    EnumCommand type;
-    union {
-        Declare* decl;
-        Statement* stmt;
-        Command* block;  // TODO : 블럭을 잘못 정의함. 언어 정의부터 다시
-    } data;
-    Command(Declare* decl): type(EnumCommand::DECL) { data.decl = decl; }
-    Command(Statement* stmt): type(EnumCommand::STMT) { data.stmt = stmt; }
-    Command(Command* block): type(EnumCommand::BLOCK) { data.block = block; }
-    ~Command() { switch (type) {
-        case EnumCommand::DECL: delete data.decl; break;
-        case EnumCommand::STMT: delete data.stmt; break;
-        case EnumCommand::BLOCK: delete data.block; break;
-    }}
-};
-struct Declare {
-    Variable var;
-    bool hasExpr;
-    Expr expr;
-};
-struct Statement {
-    EnumStatement type;
-    union {
-        STAssign* stmt_assign;
-        STIF* stmt_if;
-        STWHILE* stmt_while;
-        STFOR* stmt_for;
-        STRead* stmt_read;
-        STWrite* stmt_write;
-    } data;
-    ~Statement() { switch (type) {
-        case EnumStatement::ST_ASSIGN: delete data.stmt_assign; break;
-        case EnumStatement::ST_IF: delete data.stmt_if; break;
-        case EnumStatement::ST_WHILE: delete data.stmt_while; break;
-        case EnumStatement::ST_FOR: delete data.stmt_for; break;
-        case EnumStatement::ST_READ: delete data.stmt_read; break;
-        case EnumStatement::ST_WRITE: delete data.stmt_write; break;
-    }}
-};
-struct Variable {
-    EnumType type;
-    string name;
-};
-struct STAssign {
-    string name;
-    Expr expr;
-};
-struct STIF {
-    Expr expr;
-    Command command;
-};
-struct STWHILE {
-    Expr expr;
-    Command command;
-};
-struct STFOR {
-    Declare decl;
-    Expr expr;
-    STAssign assign;
-    Command command;
-};
-struct STRead {
-    string name;
-};
-struct STWrite {
-    string name;
-};
-struct Expr {
-    EnumExpr type;
-    union {
-        string* number;
-        string* id;
-        OP_UN* op_un;
-        OP_BIN* op_bin;
-    } data;
-    ~Expr() { switch (type) {
-        case EnumExpr::EX_NUM: delete data.number; break;
-        case EnumExpr::EX_ID: delete data.id; break;
-        case EnumExpr::EX_OP_UN: delete data.op_un; break;
-        case EnumExpr::EX_OP_BIN: delete data.op_bin; break;
-    }}
-};
-struct OP_UN {
-    string op;
-    Expr expr;
-};
-struct OP_BIN {
-    string op;
-    Expr expr1, expr2;
-};
 
 enum class EnumType { INT };
 enum class EnumCommand { DECL, STMT, BLOCK };
-enum class EnumStatement { ST_ASSIGN, ST_IF, ST_WHILE, ST_FOR, ST_READ, ST_WRITE };
-enum class EnumExpr { EX_NUM, EX_ID, EX_OP_UN, EX_OP_BIN };
+enum class EnumStatement { ST_ASSIGN, ST_IF, ST_WHILE, ST_FOR,
+    ST_READ, ST_WRITE, ST_WRITEC, ST_GOTO, ST_LABEL };
+enum class EnumExpr { EX_NUM, EX_VAR, EX_OP_UN, EX_OP_BIN };
+
+struct ID {
+    ID(const ID&) = default;
+    std::string str;
+    ID(const std::string&);
+};
+struct Num {
+    Num(const Num&) = default;
+    EnumType type;
+    std::string number;
+    Num(EnumType, const std::string&);
+};
+struct Var {
+    Var(const Var&) = default;
+    EnumType type;
+    std::string name;
+    Var(EnumType, const std::string&);
+};
+struct OP_UN;
+struct OP_BIN;
+struct Expr {
+    Expr(const Expr&) = default;
+    EnumExpr type;
+    std::any data;
+    Expr(const Num&);
+    Expr(const Var&);
+    Expr(const OP_UN&);
+    Expr(const OP_BIN&);
+};
+struct OP {
+    OP(const OP&) = default;
+    std::string op;
+    OP(const std::string&);
+};
+struct OP_UN {
+    OP_UN(const OP_UN&) = default;
+    OP op;
+    Expr expr;
+    OP_UN(const OP&, const Expr&);
+};
+struct OP_BIN {
+    OP_BIN(const OP_BIN&) = default;
+    OP op;
+    Expr expr1;
+    Expr expr2;
+    OP_BIN(const OP&, const Expr&, const Expr&);
+};
+struct Declare {
+    Declare(const Declare&) = default;
+    Var var;
+    Expr expr;
+    Declare(const Var&, const Expr&);
+};
+struct STAssign;
+struct STIf;
+struct STWhile;
+struct STFor;
+struct STRead;
+struct STWrite;
+struct STWritec;
+struct STGoto;
+struct STLabel;
+struct Statement {
+    Statement(const Statement&) = default;
+    EnumStatement type;
+    std::any data;
+    Statement(const STAssign&);
+    Statement(const STIf&);
+    Statement(const STWhile&);
+    Statement(const STFor&);
+    Statement(const STRead&);
+    Statement(const STWrite&);
+    Statement(const STWritec&);
+    Statement(const STGoto&);
+    Statement(const STLabel&);
+};
+struct Block;
+struct Command {
+    Command(const Command&) = default;
+    EnumCommand type;
+    std::any data;
+    Command(const Declare&);
+    Command(const Statement&);
+    Command(const Block&);
+};
+struct STAssign {
+    STAssign(const STAssign&) = default;
+    ID name;
+    Expr expr;
+    STAssign(const ID&, const Expr&);
+};
+struct STIf {
+    STIf(const STIf&) = default;
+    Expr expr;
+    bool hasElse;
+    std::any command;  // Command or std::pair<Command,Command>
+    STIf(const Expr&, const Command&);
+    STIf(const Expr&, const Command&, const Command&);
+};
+struct STWhile {
+    STWhile(const STWhile&) = default;
+    Expr expr;
+    Command command;
+    STWhile(const Expr&, const Command&);
+};
+struct STFor {
+    STFor(const STFor&) = default;
+    Declare decl;
+    STAssign assign1;
+    Expr expr;
+    STAssign assign2;
+    Command command;
+    STFor(const Declare&, const STAssign&, const Expr&, const STAssign&, const Command&);
+};
+struct STRead {
+    STRead(const STRead&) = default;
+    ID name;
+    STRead(const ID&);
+};
+struct STWrite {
+    STWrite(const STWrite&) = default;
+    Expr expr;
+    STWrite(const Expr&);
+};
+struct STWritec {
+    STWritec(const STWritec&) = default;
+    Expr expr;
+    STWritec(const Expr&);
+};
+struct STGoto {
+    STGoto(const STGoto&) = default;
+    ID name;
+    STGoto(const ID&);
+};
+struct STLabel {
+    STLabel(const STLabel&) = default;
+    ID name;
+    STLabel(const ID&);
+};
+struct Block {
+    Block(const Block&) = default;
+    std::vector<Command> commands;
+};
+struct Program {
+    Program(const Program&) = default;
+    std::vector<Command> commands;
+};
+
 
 }

@@ -133,6 +133,7 @@
     <ClCompile Include="Compiler1.cpp" />
     <ClCompile Include="LexialAnalyzer.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="ParseTreeComponents.cpp" />
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
