@@ -57,7 +57,7 @@ void Parser::parse() {
     try {
         // <program> -> { <command> }
         while (!token_.typeIsEquals(EnumTokenType::T_EOF))
-            parse_command();
+            program_.commands.push_back(parse_command());
     } catch (std::invalid_argument& i) {
         errout_ << "error occured in parse : " << i.what() << std::endl;
     }
@@ -86,7 +86,6 @@ psc::Block Parser::parse_block() {
     // <block> -> '{' { <command> }  '}'
     psc::Block block = {};
     match(EnumTokenType::T_BRACE_L);
-    get_next_token();
     while (!token_.typeIsEquals(EnumTokenType::T_BRACE_R))
         block.commands.push_back(parse_command());
     match(EnumTokenType::T_BRACE_R);
@@ -106,7 +105,7 @@ psc::Statement Parser::parse_stmt() {
     if (token_.typeIsEquals(EnumTokenType::T_SEMICOLON))  // <nop>
         return psc::Statement{};
     else if (token_.typeIsEquals(EnumTokenType::T_VARIABLE))  // <assign>
-        return psc::Statement(parse_assign());
+        return psc::Statement(parse_assign(true));
     else if (token_.typeIsEquals(EnumTokenType::T_LABEL))  // <label>
         return psc::Statement{parse_label()};
     else if (token_.typeIsEquals(EnumTokenType::T_IF))  // <if>
@@ -263,7 +262,7 @@ psc::Expr Parser::parse_expr4() {
 }
 psc::Expr Parser::parse_expr5() {
     psc::Expr e = {parse_expr6()};
-    while (token_ == Token{EnumTokenType::T_OPERATION_BIN, "&"}) {
+    while (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "&"}) {
         get_next_token();
         e = psc::Expr{psc::OP_BIN{psc::EnumOp::AND, e, parse_expr6()}};
     }
@@ -342,16 +341,16 @@ psc::Expr Parser::parse_expr11() {
     if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "+"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::PLS, parse_expr11()}};
-    } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "-"}) {
+    } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "-"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::MNS, parse_expr11()}};
-    } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "~"}) {
+    } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "~"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::NEG, parse_expr11()}};
-    } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "!"}) {
+    } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "!"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::BNE, parse_expr11()}};
-    } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "*"}) {
+    } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "*"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::PTR, parse_expr11()}};
     } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "&"}) {

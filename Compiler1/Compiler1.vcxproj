@@ -131,18 +131,22 @@
   <ItemGroup>
     <ClCompile Include="CharReader.cpp" />
     <ClCompile Include="Compiler1.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="LexialAnalyzer.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ParseTreeComponents.cpp" />
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="VMemoryPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharReader.h" />
+    <ClInclude Include="Interpreter.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTreeComponents.h" />
     <ClInclude Include="UtilChar.h" />
     <ClInclude Include="LexialAnalyzer.h" />
     <ClInclude Include="Token.h" />
+    <ClInclude Include="VMemoryPool.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dev_log.txt" />

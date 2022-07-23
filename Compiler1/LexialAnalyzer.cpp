@@ -71,7 +71,7 @@ Token LexialAnalyzer::readSymbol() {
             else return Token{EnumTokenType::T_ASSIGN, ret};
     case '+': return Token{EnumTokenType::T_OPERATION_BOTH, ret};
     case '-': return Token{EnumTokenType::T_OPERATION_BOTH, ret};
-    case '*': return Token{EnumTokenType::T_OPERATION_BOTH, ret};
+    case '*': return Token{EnumTokenType::T_OPERATION_BIN, ret};
     case '/': return Token{EnumTokenType::T_OPERATION_BIN, ret};
     case '%': return Token{EnumTokenType::T_OPERATION_BIN, ret};
     case '~': return Token{EnumTokenType::T_OPERATION_UN, ret};
