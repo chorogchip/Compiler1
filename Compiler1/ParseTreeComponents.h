@@ -7,9 +7,12 @@ namespace psc {
 
 enum class EnumType { INT };
 enum class EnumCommand { DECL, STMT, BLOCK };
-enum class EnumStatement { ST_ASSIGN, ST_IF, ST_WHILE, ST_FOR,
+enum class EnumStatement { ST_NOP, ST_ASSIGN, ST_IF, ST_WHILE, ST_FOR,
     ST_READ, ST_WRITE, ST_WRITEC, ST_GOTO, ST_LABEL };
 enum class EnumExpr { EX_NUM, EX_VAR, EX_OP_UN, EX_OP_BIN };
+enum class EnumOp { ADD, SUB, MUL, DIV, MOD, SHL, SHR, AND, ORR, XOR,
+    BAN, BOR, EQL, NEQ, BIG, BIE, SML, SME,
+    PLS, MNS, NEG, BNE, ADR, PTR, PAR };
 
 struct ID {
     ID(const ID&) = default;
@@ -25,8 +28,8 @@ struct Num {
 struct Var {
     Var(const Var&) = default;
     EnumType type;
-    std::string name;
-    Var(EnumType, const std::string&);
+    ID name;
+    Var(EnumType, const ID&);
 };
 struct OP_UN;
 struct OP_BIN;
@@ -35,14 +38,14 @@ struct Expr {
     EnumExpr type;
     std::any data;
     Expr(const Num&);
-    Expr(const Var&);
+    Expr(const ID&);
     Expr(const OP_UN&);
     Expr(const OP_BIN&);
 };
 struct OP {
     OP(const OP&) = default;
-    std::string op;
-    OP(const std::string&);
+    EnumOp op;
+    OP(const EnumOp&);
 };
 struct OP_UN {
     OP_UN(const OP_UN&) = default;
@@ -60,8 +63,8 @@ struct OP_BIN {
 struct Declare {
     Declare(const Declare&) = default;
     Var var;
-    Expr expr;
-    Declare(const Var&, const Expr&);
+    Num address;
+    Declare(const Var&, const Num&);
 };
 struct STAssign;
 struct STIf;
@@ -76,6 +79,7 @@ struct Statement {
     Statement(const Statement&) = default;
     EnumStatement type;
     std::any data;
+    Statement();
     Statement(const STAssign&);
     Statement(const STIf&);
     Statement(const STWhile&);

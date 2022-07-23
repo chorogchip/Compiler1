@@ -28,6 +28,7 @@ enum class EnumTokenType {
     T_FOR,
     T_DO,
     T_GOTO,
+    T_LABEL,
 
     T_READ,
     T_WRITE,
@@ -36,6 +37,7 @@ enum class EnumTokenType {
     T_ERROR_ON_READER,
     T_ERROR_ON_ANALYZER,
 };
+
 class Token {
 private:
     EnumTokenType type_;
@@ -48,9 +50,12 @@ public:
     Token(const Token& t);
     Token& operator=(const Token& t);
     ~Token();
+    std::string&& move_string() noexcept;
     bool operator==(const Token& t) const;
     bool typeIsEquals(EnumTokenType type) const;
     bool typeIsEquals(const Token& t) const;
     bool stringIsEquals(const char* str) const;
     friend std::ostream& operator<<(std::ostream& ostr, const Token& t);
+
+    constexpr static const char *STR_INT = {"int"};
 };

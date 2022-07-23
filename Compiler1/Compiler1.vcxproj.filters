@@ -61,5 +61,8 @@
     <Text Include="target_byte_code.txt">
       <Filter>리소스 파일</Filter>
     </Text>
+    <Text Include="dev_log.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
   </ItemGroup>
 </Project>

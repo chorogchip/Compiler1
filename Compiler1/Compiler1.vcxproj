@@ -145,6 +145,7 @@
     <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="dev_log.txt" />
     <Text Include="Language Rule.txt" />
     <Text Include="target_byte_code.txt" />
   </ItemGroup>

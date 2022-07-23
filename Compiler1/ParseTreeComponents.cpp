@@ -3,18 +3,19 @@
 namespace psc {
 
 
-ID::ID(const std::string& s): str{s} {}
-Num::Num(EnumType t, const std::string& s): type{t}, number{s} {}
-Var::Var(EnumType t, const std::string& s): type{t}, name{s} {}
+ID::ID(const std::string& s): str(s) {}
+Num::Num(EnumType t, const std::string& s): type{t}, number(s) {}
+Var::Var(EnumType t, const ID& s): type{t}, name{s} {}
 Expr::Expr(const Num& number):    type(EnumExpr::EX_NUM), data{number} {}
-Expr::Expr(const Var& var):  type(EnumExpr::EX_VAR), data{var} {}
+Expr::Expr(const ID& id):  type(EnumExpr::EX_VAR), data{id} {}
 Expr::Expr(const OP_UN& op_un):   type(EnumExpr::EX_OP_UN), data{op_un} {}
 Expr::Expr(const OP_BIN& op_bin): type(EnumExpr::EX_OP_BIN), data{op_bin} {}
-OP::OP(const std::string& s): op{s} {}
+OP::OP(const EnumOp& opp): op{opp} {}
 OP_UN::OP_UN(const OP& opr, const Expr& ex): op{opr}, expr{ex} {}
 OP_BIN::OP_BIN(const OP& opr, const Expr& ex1, const Expr& ex2):
     op{opr}, expr1{ex1}, expr2{ex2} {}
-Declare::Declare(const Var& v, const Expr& ex): var{v}, expr{ex} {}
+Declare::Declare(const Var& v, const Num& add): var{v}, address{add} {}
+Statement::Statement(): type(EnumStatement::ST_NOP), data{} {}
 Statement::Statement(const STAssign& ass):  type{EnumStatement::ST_ASSIGN}, data{ass} {}
 Statement::Statement(const STIf& iff):      type{EnumStatement::ST_IF}, data{iff} {}
 Statement::Statement(const STWhile& wh):    type{EnumStatement::ST_WHILE}, data{wh} {}

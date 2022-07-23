@@ -6,8 +6,7 @@
 
 int main()
 {   
-    std::string str {"1 123 int do while for fore iif func function return\
-retun 123A2 adasdk2 skdk22313+kdsad<=>>2313/32"};
+    std::string str {"int a : 1; int b : 2; a = 3; b = a + 3;"};
     str += -1;
     std::istringstream ss;
     ss.str(str);

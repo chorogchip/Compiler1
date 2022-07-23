@@ -23,21 +23,21 @@ Token LexialAnalyzer::getToken() {
 }
 
 std::string LexialAnalyzer::readDigit() {
-    std::string res = "";
+    std::string res = {""};
     do res += cr_.getC();
     while (cr_.getNextCharType() == EnumCharType::DIGIT ||
            cr_.getNextCharType() == EnumCharType::ALPHABET);
     return res;
 }
 std::string LexialAnalyzer::readAlphabet() {
-    std::string res = "";
+    std::string res = {""};
     do res += cr_.getC();
     while (cr_.getNextCharType() == EnumCharType::DIGIT ||
            cr_.getNextCharType() == EnumCharType::ALPHABET);
     return res;
 }
 Token LexialAnalyzer::filterKeywordsFromAlphabetToken(const Token& t) const {
-         if (t.stringIsEquals("int"))      return Token{EnumTokenType::T_DATATYPE, "int"};
+         if (t.stringIsEquals("int"))      return Token{EnumTokenType::T_DATATYPE, Token::STR_INT};
     else if (t.stringIsEquals("if"))       return Token{EnumTokenType::T_IF};
     else if (t.stringIsEquals("else"))     return Token{EnumTokenType::T_ELSE};
     else if (t.stringIsEquals("while"))    return Token{EnumTokenType::T_WHILE};
@@ -47,6 +47,7 @@ Token LexialAnalyzer::filterKeywordsFromAlphabetToken(const Token& t) const {
     else if (t.stringIsEquals("write"))    return Token{EnumTokenType::T_WRITE};
     else if (t.stringIsEquals("writec"))   return Token{EnumTokenType::T_WRITEC};
     else if (t.stringIsEquals("goto"))     return Token{EnumTokenType::T_GOTO};
+    else if (t.stringIsEquals("label"))    return Token{EnumTokenType::T_LABEL};
     else return t;
 }
 Token LexialAnalyzer::readSymbol() {
