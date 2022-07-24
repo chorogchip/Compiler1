@@ -1,13 +1,12 @@
 #include "CharReader.h"
 
-CharReader::CharReader(std::istream& input_stream):
+CharReader::CharReader(std::istream &input_stream):
     istr_{input_stream},
     c_{'\0'}
 {}
 
-CharReader::~CharReader() {}
 char CharReader::getC() {
-    char c = {c_};
+    char c{c_};
     istr_.read(&c_, 1);
     return c;
 }

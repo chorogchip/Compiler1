@@ -15,56 +15,56 @@ enum class EnumOp { ADD, SUB, MUL, DIV, MOD, SHL, SHR, AND, ORR, XOR,
     PLS, MNS, NEG, BNE, ADR, PTR, PAR };
 
 struct ID {
-    ID(const ID&) = default;
+    ID(ID const &) = default;
     std::string str;
-    ID(const std::string&);
+    explicit ID(std::string const &);
 };
 struct Num {
-    Num(const Num&) = default;
+    Num(Num const &) = default;
     EnumType type;
     std::string number;
-    Num(EnumType, const std::string&);
+    explicit Num(EnumType, std::string const &);
 };
 struct Var {
-    Var(const Var&) = default;
+    Var(Var const &) = default;
     EnumType type;
     ID name;
-    Var(EnumType, const ID&);
+    Var(EnumType, ID const &);
 };
 struct OP_UN;
 struct OP_BIN;
 struct Expr {
-    Expr(const Expr&) = default;
+    Expr(Expr const &) = default;
     EnumExpr type;
     std::any data;
-    Expr(const Num&);
-    Expr(const ID&);
-    Expr(const OP_UN&);
-    Expr(const OP_BIN&);
+    Expr(Num const &);
+    Expr(ID const &);
+    Expr(OP_UN const &);
+    Expr(OP_BIN const &);
 };
 struct OP {
-    OP(const OP&) = default;
+    OP(OP const &) = default;
     EnumOp op;
-    OP(const EnumOp&);
+    OP(EnumOp const &);
 };
 struct OP_UN {
-    OP_UN(const OP_UN&) = default;
+    OP_UN(OP_UN const &) = default;
     OP op;
     Expr expr;
-    OP_UN(const OP&, const Expr&);
+    OP_UN(OP const &, Expr const &);
 };
 struct OP_BIN {
-    OP_BIN(const OP_BIN&) = default;
+    OP_BIN(OP_BIN const &) = default;
     OP op;
     Expr expr1;
     Expr expr2;
-    OP_BIN(const OP&, const Expr&, const Expr&);
+    OP_BIN(OP const &, Expr const &, Expr const &);
 };
 struct Declare {
-    Declare(const Declare&) = default;
+    Declare(Declare const &) = default;
     Var var;
     Num address;
-    Declare(const Var&, const Num&);
+    Declare(Var const &, Num const &);
 };
 struct STAssign;
 struct STIf;
@@ -76,89 +76,89 @@ struct STWritec;
 struct STGoto;
 struct STLabel;
 struct Statement {
-    Statement(const Statement&) = default;
+    Statement(Statement const &) = default;
     EnumStatement type;
     std::any data;
     Statement();
-    Statement(const STAssign&);
-    Statement(const STIf&);
-    Statement(const STWhile&);
-    Statement(const STFor&);
-    Statement(const STRead&);
-    Statement(const STWrite&);
-    Statement(const STWritec&);
-    Statement(const STGoto&);
-    Statement(const STLabel&);
+    Statement(STAssign const &);
+    Statement(STIf const &);
+    Statement(STWhile const &);
+    Statement(STFor const &);
+    Statement(STRead const &);
+    Statement(STWrite const &);
+    Statement(STWritec const &);
+    Statement(STGoto const &);
+    Statement(STLabel const &);
 };
 struct Block;
 struct Command {
-    Command(const Command&) = default;
+    Command(Command const &) = default;
     EnumCommand type;
     std::any data;
-    Command(const Declare&);
-    Command(const Statement&);
-    Command(const Block&);
+    Command(Declare const &);
+    Command(Statement const &);
+    Command(Block const &);
 };
 struct STAssign {
-    STAssign(const STAssign&) = default;
+    STAssign(STAssign const &) = default;
     ID name;
     Expr expr;
-    STAssign(const ID&, const Expr&);
+    STAssign(ID const &, Expr const &);
 };
 struct STIf {
-    STIf(const STIf&) = default;
+    STIf(STIf const &) = default;
     Expr expr;
     bool hasElse;
     std::any command;  // Command or std::pair<Command,Command>
-    STIf(const Expr&, const Command&);
-    STIf(const Expr&, const Command&, const Command&);
+    STIf(Expr const &, Command const &);
+    STIf(Expr const &, Command const &, Command const &);
 };
 struct STWhile {
-    STWhile(const STWhile&) = default;
+    STWhile(STWhile const &) = default;
     Expr expr;
     Command command;
-    STWhile(const Expr&, const Command&);
+    STWhile(Expr const &, Command const &);
 };
 struct STFor {
-    STFor(const STFor&) = default;
+    STFor(STFor const &) = default;
     Declare decl;
     STAssign assign1;
     Expr expr;
     STAssign assign2;
     Command command;
-    STFor(const Declare&, const STAssign&, const Expr&, const STAssign&, const Command&);
+    STFor(Declare const &, STAssign const &, Expr const &, STAssign const &, Command const &);
 };
 struct STRead {
-    STRead(const STRead&) = default;
+    STRead(STRead const &) = default;
     ID name;
-    STRead(const ID&);
+    STRead(ID const &);
 };
 struct STWrite {
-    STWrite(const STWrite&) = default;
+    STWrite(STWrite const &) = default;
     Expr expr;
-    STWrite(const Expr&);
+    STWrite(Expr const &);
 };
 struct STWritec {
-    STWritec(const STWritec&) = default;
+    STWritec(STWritec const &) = default;
     Expr expr;
-    STWritec(const Expr&);
+    STWritec(Expr const &);
 };
 struct STGoto {
-    STGoto(const STGoto&) = default;
+    STGoto(STGoto const &) = default;
     ID name;
-    STGoto(const ID&);
+    STGoto(ID const &);
 };
 struct STLabel {
-    STLabel(const STLabel&) = default;
+    STLabel(STLabel const &) = default;
     ID name;
-    STLabel(const ID&);
+    STLabel(ID const &);
 };
 struct Block {
-    Block(const Block&) = default;
+    Block(Block const &) = default;
     std::vector<Command> commands;
 };
 struct Program {
-    Program(const Program&) = default;
+    Program(Program const &) = default;
     std::vector<Command> commands;
 };
 

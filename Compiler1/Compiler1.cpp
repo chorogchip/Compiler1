@@ -6,7 +6,7 @@
 
 int main()
 {   
-    std::string str = (R"asdf%%asdf(
+    std::string str(R"asdf%%asdf(
 
 int a : 1;
 int b : 2;
@@ -22,11 +22,11 @@ else writec 66;
 
 )asdf%%asdf");
     str += -1;
-    std::istringstream ss = {};
+    std::istringstream ss{};
     ss.str(str);
 
-    LexialAnalyzer la = {ss};
-    Parser p = {la, std::cout};
+    LexialAnalyzer la{ss};
+    Parser p{la, std::cout};
     p.parse();
 }
 

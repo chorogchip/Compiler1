@@ -1,6 +1,6 @@
 #include "LexialAnalyzer.h"
 
-LexialAnalyzer::LexialAnalyzer(std::istream& input_stream):
+LexialAnalyzer::LexialAnalyzer(std::istream &input_stream):
     cr_{input_stream}
 {}
 
@@ -10,33 +10,33 @@ void LexialAnalyzer::startReading() {
 Token LexialAnalyzer::getToken() {
     cr_.flushWhiteSpace();
     switch (cr_.getNextCharType()) {
-    case EnumCharType::END_INPUT: return Token(EnumTokenType::T_EOF);
-    case EnumCharType::DIGIT:     return Token(EnumTokenType::T_LITERAL_INT, this->readDigit());
+    case EnumCharType::END_INPUT: return Token{EnumTokenType::T_EOF};
+    case EnumCharType::DIGIT:     return Token{EnumTokenType::T_LITERAL_INT, this->readDigit()};
     case EnumCharType::ALPHABET:
         return this->filterKeywordsFromAlphabetToken(
-            Token(EnumTokenType::T_VARIABLE, this->readAlphabet()));
+            Token{EnumTokenType::T_VARIABLE, this->readAlphabet()});
     case EnumCharType::SYMBOL: return this->readSymbol();
-    case EnumCharType::ERROR:  return Token(EnumTokenType::T_ERROR_ON_READER, cr_.getC());
-    default:                   return Token(EnumTokenType::T_ERROR_ON_ANALYZER, cr_.getC());
+    case EnumCharType::ERROR:  return Token{EnumTokenType::T_ERROR_ON_READER, cr_.getC()};
+    default:                   return Token{EnumTokenType::T_ERROR_ON_ANALYZER, cr_.getC()};
     }
-    return Token(EnumTokenType::T_ERROR_ON_ANALYZER);
+    return Token{EnumTokenType::T_ERROR_ON_ANALYZER};
 }
 
 std::string LexialAnalyzer::readDigit() {
-    std::string res = {""};
+    std::string res("");
     do res += cr_.getC();
     while (cr_.getNextCharType() == EnumCharType::DIGIT ||
            cr_.getNextCharType() == EnumCharType::ALPHABET);
     return res;
 }
 std::string LexialAnalyzer::readAlphabet() {
-    std::string res = {""};
+    std::string res("");
     do res += cr_.getC();
     while (cr_.getNextCharType() == EnumCharType::DIGIT ||
            cr_.getNextCharType() == EnumCharType::ALPHABET);
     return res;
 }
-Token LexialAnalyzer::filterKeywordsFromAlphabetToken(const Token& t) const {
+Token LexialAnalyzer::filterKeywordsFromAlphabetToken(Token const &t) const {
          if (t.stringIsEquals("int"))      return Token{EnumTokenType::T_DATATYPE, Token::STR_INT};
     else if (t.stringIsEquals("if"))       return Token{EnumTokenType::T_IF};
     else if (t.stringIsEquals("else"))     return Token{EnumTokenType::T_ELSE};
@@ -51,7 +51,7 @@ Token LexialAnalyzer::filterKeywordsFromAlphabetToken(const Token& t) const {
     else return t;
 }
 Token LexialAnalyzer::readSymbol() {
-    std::string ret = "";
+    std::string ret("");
     ret += cr_.getC();
     switch (ret[0]) {
     case '|': if (cr_.nextCharIs('|')) return Token{EnumTokenType::T_OPERATION_BIN, ret + cr_.getC()};

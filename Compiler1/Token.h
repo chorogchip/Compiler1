@@ -43,19 +43,19 @@ private:
     EnumTokenType type_;
     std::string val_;
 public:
-    Token(EnumTokenType type);
-    Token(EnumTokenType type, char val);
-    Token(EnumTokenType type, std::string& val);
-    Token(EnumTokenType type, std::string&& val);
-    Token(const Token& t);
-    Token& operator=(const Token& t);
+    explicit Token(EnumTokenType type);
+    explicit Token(EnumTokenType type, char val);
+    explicit Token(EnumTokenType type, std::string const &val);
+    explicit Token(EnumTokenType type, std::string &&val);
+    Token(Token const &t);
+    Token &operator=(Token const &t);
     ~Token();
-    std::string&& move_string() noexcept;
-    bool operator==(const Token& t) const;
+    std::string &&move_string() noexcept;
+    bool operator==(Token const &t) const;
     bool typeIsEquals(EnumTokenType type) const;
-    bool typeIsEquals(const Token& t) const;
-    bool stringIsEquals(const char* str) const;
-    friend std::ostream& operator<<(std::ostream& ostr, const Token& t);
+    bool typeIsEquals(Token const &t) const;
+    bool stringIsEquals(char const *str) const;
+    friend std::ostream &operator<<(std::ostream &ostr, Token const &t);
 
-    constexpr static const char *STR_INT = {"int"};
+    constexpr static const char *STR_INT{"int"};
 };

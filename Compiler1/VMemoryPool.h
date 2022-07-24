@@ -9,20 +9,19 @@ private:
         int *mem_;
     public:
         Mem() = delete;
-        Mem(const Mem&) = delete;
-        Mem(Mem&&) noexcept;
+        Mem(Mem const &) = delete;
+        Mem(Mem &&) noexcept;
         Mem(size_t st, size_t en);
         ~Mem();
-        Mem& operator=(const Mem&) = delete;
-        int& operator[](size_t i);
+        Mem &operator=(Mem const &) = delete;
+        int &operator[](size_t i);
         bool operator<(size_t i);
     };
     std::vector<Mem> mem_;
     size_t back_;
 public:
     VMemoryPool();
-    VMemoryPool(const VMemoryPool&) = delete;
-    ~VMemoryPool() = default;
-    VMemoryPool& operator=(const VMemoryPool&) = delete;
-    int& operator[](size_t i);
+    VMemoryPool(VMemoryPool const &) = delete;
+    VMemoryPool &operator=(VMemoryPool const &) = delete;
+    int &operator[](size_t i);
 };

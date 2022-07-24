@@ -10,12 +10,11 @@ private:
     CharReader cr_;
     std::string readDigit();
     std::string readAlphabet();
-    Token filterKeywordsFromAlphabetToken(const Token& t) const;
+    Token filterKeywordsFromAlphabetToken(Token const &t) const;
     Token readSymbol();
 
 public:
-    LexialAnalyzer(std::istream& input_stream);
-    ~LexialAnalyzer() = default;
+    LexialAnalyzer(std::istream &input_stream);
     void startReading();
     Token getToken();
 

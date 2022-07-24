@@ -6,13 +6,12 @@
 class Interpreter {
 private:
     psc::Program p_;
-    std::ostream& out_;
+    std::ostream &out_;
     //VMemoryPool mem_;
 public:
-    Interpreter(psc::Program&& p, std::ostream& out);
-    Interpreter(const Interpreter&) = delete;
-    ~Interpreter() = default; 
-    Interpreter& operator=(const Interpreter&) = delete;
+    Interpreter(psc::Program &&p, std::ostream &out);
+    Interpreter(Interpreter const &) = delete;
+    Interpreter &operator=(Interpreter const &) = delete;
     void interpret() const;
 };
 

@@ -5,7 +5,7 @@ VMemoryPool::Mem::Mem(size_t st, size_t en):
     end_{en},
     mem_{new int[en - st]}
 {}
-VMemoryPool::Mem::Mem(Mem&& m) noexcept :
+VMemoryPool::Mem::Mem(Mem &&m) noexcept :
     start_{m.start_},
     end_{m.end_},
     mem_{m.mem_}
@@ -16,7 +16,7 @@ VMemoryPool::Mem::~Mem() {
     if (mem_ != nullptr)
         delete[] mem_;
 }
-int& VMemoryPool::Mem::operator[](size_t i) {
+int &VMemoryPool::Mem::operator[](size_t i) {
     return mem_[i - start_];
 }
 bool VMemoryPool::Mem::operator<(size_t i) {
@@ -27,7 +27,7 @@ VMemoryPool::VMemoryPool():
     mem_(),
     back_{0U}
 {}
-int& VMemoryPool::operator[](size_t i) {
+int &VMemoryPool::operator[](size_t i) {
     if (mem_.empty()) {
         mem_.emplace_back(0, i + 100);
         back_ = i + 100;
@@ -37,7 +37,7 @@ int& VMemoryPool::operator[](size_t i) {
         back_ = i + 100;
         return mem_.back()[i];
     } else {
-        size_t lo = 0U, md, hi = mem_.size() - 1;
+        size_t lo{0U}, md, hi{mem_.size() - 1};
         while (lo < hi) {
             md = (lo + hi + 1U) >> 1U;
             if (mem_[md] < i) hi = md - 1;

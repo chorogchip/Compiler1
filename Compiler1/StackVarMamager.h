@@ -12,22 +12,22 @@ private:
         std::string name_;
         size_t index_;
     public:
-        Var(const std::string& nm, size_t ind);
-        Var(const psc::Declare& d);
-        Var(const Var&) = default;
-        Var(Var&&) noexcept;
-        bool name_is_equals(const std::string& nm) const;
+        Var(std::string const &nm, size_t ind);
+        Var(psc::Declare const &d);
+        Var(Var const &) = default;
+        Var(Var &&) noexcept;
+        bool name_is_equals(std::string const &nm) const;
     };
 
     class Label {
     private:
         std::string name_;
     public:
-        Label(const std::string nm);
-        Label(const psc::STLabel& l);
-        Label(const Label&) = default;
-        Label(Label&&) noexcept;
-        bool name_is_equals(const std::string& nm) const;
+        Label(std::string const &nm);
+        Label(psc::STLabel const &l);
+        Label(Label const &) = default;
+        Label(Label &&) noexcept;
+        bool name_is_equals(std::string const &nm) const;
     };
 
     class Block {
@@ -36,19 +36,19 @@ private:
         std::vector<Label> labels_;
     public:
         Block() = default;
-        void insert(Var&&) noexcept;
-        void insert(Label&&) noexcept;
-        bool hasVar(const std::string& nm) const;
-        bool hasLabel(const std::string& nm) const;
+        void insert(Var &&) noexcept;
+        void insert(Label &&) noexcept;
+        bool hasVar(std::string const &nm) const;
+        bool hasLabel(std::string const &nm) const;
     };
 private:
-    const psc::Program& pr_;
-    std::ostream& errout_;
+    psc::Program const &pr_;
+    std::ostream &errout_;
     std::vector<Block> blocks_;
     size_t current_block_;
 
     void read_program();
 public:
-    StackVarMamager(const psc::Program&, std::ostream&);
+    StackVarMamager(psc::Program const &, std::ostream &);
 };
 
