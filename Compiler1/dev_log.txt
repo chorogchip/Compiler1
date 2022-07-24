@@ -6,3 +6,11 @@ var = 3; 의 <assign> 과 var: 의 <label> 을 구분할 수 없다는 것을 꺠달았다.
 객체 초기화 시 중괄호와 괄호의 차이점을 알았다.
 initializer_list가 있는 객체엔 (), 없는 객체엔 {}를 사용하기로 했다.
 또 지역 변수로 객체를 생성할 땐 Obj var = {a, b}, 다른 곳에 넘길 땐 Obj{a, b}로 쓰기로 했다.
+이번엔 타입 이름이 const char* const ptr 인데 다음엔 char const *const ptr 로 해야겠다
+왜 커멘드가 Declare, Bock, Statement로 나눠지도록 했는지 모르겠다.
+적어도 Stament의 분류 중 하나인 Label은 Statement가 아닌 Command에 소속되게 했어야 했다.
+그래야 변수 이름을 관리하는 스택에서 쉽게 감지할 수 있다.
+다음엔 분류를 잘 해야겠다.
+Block만 Command에 속하게 하거나
+Declare, Label, Block이 Command에 속하거나. (실행이 안된다?는 공통점)
+

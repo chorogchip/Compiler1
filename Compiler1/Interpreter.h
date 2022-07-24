@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
-#include"VMemoryPool.h"
 #include"ParseTreeComponents.h"
+#include"VMemoryPool.h"
 
 class Interpreter {
 private:

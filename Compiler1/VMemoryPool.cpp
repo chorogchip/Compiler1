@@ -1,12 +1,20 @@
-#include "VMemoryPool.h"/*
+#include "VMemoryPool.h"
 
 VMemoryPool::Mem::Mem(size_t st, size_t en):
     start_{st},
     end_{en},
     mem_{new int[en - st]}
 {}
+VMemoryPool::Mem::Mem(Mem&& m) noexcept :
+    start_{m.start_},
+    end_{m.end_},
+    mem_{m.mem_}
+{
+    m.mem_ = nullptr;
+}
 VMemoryPool::Mem::~Mem() {
-    delete[] mem_;
+    if (mem_ != nullptr)
+        delete[] mem_;
 }
 int& VMemoryPool::Mem::operator[](size_t i) {
     return mem_[i - start_];
@@ -37,4 +45,4 @@ int& VMemoryPool::operator[](size_t i) {
         }
         return mem_[lo][i];
     }
-}*/
+}

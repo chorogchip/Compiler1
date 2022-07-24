@@ -135,6 +135,7 @@
     <ClCompile Include="LexialAnalyzer.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ParseTreeComponents.cpp" />
+    <ClCompile Include="StackVarMamager.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="VMemoryPool.cpp" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTreeComponents.h" />
+    <ClInclude Include="StackVarMamager.h" />
     <ClInclude Include="UtilChar.h" />
     <ClInclude Include="LexialAnalyzer.h" />
     <ClInclude Include="Token.h" />

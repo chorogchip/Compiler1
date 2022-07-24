@@ -1,4 +1,4 @@
-#pragma once/*
+#pragma once
 #include<vector>
 class VMemoryPool {
 private:
@@ -10,6 +10,7 @@ private:
     public:
         Mem() = delete;
         Mem(const Mem&) = delete;
+        Mem(Mem&&) noexcept;
         Mem(size_t st, size_t en);
         ~Mem();
         Mem& operator=(const Mem&) = delete;
@@ -25,5 +26,3 @@ public:
     VMemoryPool& operator=(const VMemoryPool&) = delete;
     int& operator[](size_t i);
 };
-
-*/
