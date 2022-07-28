@@ -25,9 +25,9 @@ private:
     psc::Command parse_command();
     psc::Block parse_block();
     psc::Declare parse_decl();
+    psc::Label parse_label();
     psc::Statement parse_stmt();
     psc::STAssign parse_assign(bool has_semicolon = true);
-    psc::STLabel parse_label();
     psc::STIf parse_if();
     psc::STWhile parse_while();
     psc::STFor parse_for();
@@ -55,6 +55,6 @@ private:
 
 public:
     Parser(LexialAnalyzer &lexer, std::ostream &error_output_stream);
-    void parse();
+    bool parse();
     psc::Program &&get_program();
 };

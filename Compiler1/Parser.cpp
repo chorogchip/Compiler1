@@ -52,15 +52,17 @@ void Parser::start_parse() {
     lexer_.startReading();
     get_next_token();
 }
-void Parser::parse() {
+bool Parser::parse() {
     start_parse();
     try {
         // <program> -> { <command> }
         while (!token_.typeIsEquals(EnumTokenType::T_EOF))
             program_.commands.push_back(parse_command());
+        return true;
     } catch (std::invalid_argument &i) {
         errout_ << "error occured in parse : " << i.what() << std::endl;
     }
+    return false;
 }
 void Parser::get_next_token() {
     token_ = lexer_.getToken();
@@ -74,11 +76,13 @@ std::string Parser::get_str_and_get_next_token() {
     return st;
 }
 psc::Command Parser::parse_command() {
-    // <command> -> <decl> | <stmt> | <block>
+    // <command> -> <decl> | <stmt> | <block> | <label>
     if (token_.typeIsEquals(EnumTokenType::T_BRACE_L))  // <block>
         return psc::Command{parse_block()};
     else if (token_.typeIsEquals(EnumTokenType::T_DATATYPE))  // <decl>
         return psc::Command{parse_decl()};
+    else if (token_.typeIsEquals(EnumTokenType::T_LABEL))  // <label>
+        return psc::Command{parse_label()};
     else
         return psc::Command{parse_stmt()};  // <statement>
 }
@@ -91,23 +95,31 @@ psc::Block Parser::parse_block() {
     match(EnumTokenType::T_BRACE_R);
     return block;
 }
+psc::Label Parser::parse_label() {
+    // <label> -> label <id> :
+    match(EnumTokenType::T_LABEL);
+    psc::ID const id{parse_id()};
+    match(EnumTokenType::T_COLON);
+    return psc::Label{id};
+}
 psc::Declare Parser::parse_decl() {
     // <decl> -> <type> <id> : <number> ;
     psc::Var const v{parse_var()};
     match(EnumTokenType::T_COLON);
     psc::Num const n{parse_int()};
+    size_t sz{static_cast<size_t>(stoll(n.number))};
+    if (program_.max_address < sz)
+        program_.max_address = sz;
     match(EnumTokenType::T_SEMICOLON);
     return psc::Declare{v, n};
 }
 psc::Statement Parser::parse_stmt() {
     // <stmt> -> <nop> | <assign> | <if> | <while> | <for> |
-    // <read> | <write> | <writec> | <goto> | <label>
+    // <read> | <write> | <writec> | <goto>
     if (token_.typeIsEquals(EnumTokenType::T_SEMICOLON))  // <nop>
         return psc::Statement{};
     else if (token_.typeIsEquals(EnumTokenType::T_VARIABLE))  // <assign>
         return psc::Statement{parse_assign(true)};
-    else if (token_.typeIsEquals(EnumTokenType::T_LABEL))  // <label>
-        return psc::Statement{parse_label()};
     else if (token_.typeIsEquals(EnumTokenType::T_IF))  // <if>
         return psc::Statement{parse_if()};
     else if (token_.typeIsEquals(EnumTokenType::T_WHILE))  // <while>
@@ -134,13 +146,6 @@ psc::STAssign Parser::parse_assign(bool has_semicolon) {
     if (has_semicolon) match(EnumTokenType::T_SEMICOLON);
     return psc::STAssign{id, e};
 }
-psc::STLabel Parser::parse_label() {
-    // <label> -> label <id> :
-    match(EnumTokenType::T_LABEL);
-    psc::ID const id{parse_id()};
-    match(EnumTokenType::T_COLON);
-    return psc::STLabel{id};
-}
 psc::STIf Parser::parse_if() {
     // <if> -> if '( <expr> ')' <command> [ else <command> ]
     match(EnumTokenType::T_IF);
@@ -148,9 +153,14 @@ psc::STIf Parser::parse_if() {
     psc::Expr const e{parse_expr()};
     match(EnumTokenType::T_PAREN_R);
     psc::Command const c{parse_command()};
+    if (c.type == psc::EnumCommand::DECL)
+        error("declaration cannot come after if statement");
     if (token_.typeIsEquals(EnumTokenType::T_ELSE)) {  // else
         get_next_token();
-        return psc::STIf{e, c, parse_command()};
+        psc::Command c2{parse_command()};
+        if (c2.type == psc::EnumCommand::DECL)
+            error("declaration cannot come after else statement");
+        return psc::STIf{e, c, c2};
     } else {
         return psc::STIf{e, c};
     }
@@ -162,6 +172,8 @@ psc::STWhile Parser::parse_while() {
     psc::Expr const e{parse_expr()};
     match(EnumTokenType::T_PAREN_R);
     psc::Command const c{parse_command()};
+    if (c.type == psc::EnumCommand::DECL)
+        error("declaration cannot come after while statement");
     return psc::STWhile{e, c};
 }
 psc::STFor Parser::parse_for() {
@@ -175,6 +187,8 @@ psc::STFor Parser::parse_for() {
     psc::STAssign const a2{parse_assign(false)};
     match(EnumTokenType::T_PAREN_R);
     psc::Command const c{parse_command()};
+    if (c.type == psc::EnumCommand::DECL)
+        error("declaration cannot come after for statement");
     return psc::STFor{d, a1, e, a2, c};
 }
 psc::STRead Parser::parse_read() {
@@ -201,7 +215,7 @@ psc::STWritec Parser::parse_writec() {
 psc::STGoto Parser::parse_goto() {     
     // <goto> -> goto <id> ;
     match(EnumTokenType::T_GOTO);
-    psc::STGoto const g{parse_id()};
+    psc::STGoto const g{parse_expr()};
     match(EnumTokenType::T_SEMICOLON);
     return g;
 }

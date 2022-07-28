@@ -12,6 +12,7 @@ enum class EnumTokenType {
     T_OPERATION_BOTH, // can be unary or binary
 
     T_ASSIGN,
+    T_LABEL,
     T_COLON,
 
     T_PAREN_L,
@@ -28,7 +29,6 @@ enum class EnumTokenType {
     T_FOR,
     T_DO,
     T_GOTO,
-    T_LABEL,
 
     T_READ,
     T_WRITE,

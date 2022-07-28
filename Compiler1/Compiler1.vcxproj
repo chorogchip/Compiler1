@@ -129,9 +129,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ByteCode.cpp" />
     <ClCompile Include="CharReader.cpp" />
     <ClCompile Include="Compiler1.cpp" />
+    <ClCompile Include="InstructedProgram.cpp" />
+    <ClCompile Include="Instructor.cpp" />
     <ClCompile Include="Interpreter.cpp" />
+    <ClCompile Include="LabelManager.cpp" />
     <ClCompile Include="LexialAnalyzer.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="ParseTreeComponents.cpp" />
@@ -140,8 +144,13 @@
     <ClCompile Include="VMemoryPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ByteCode.h" />
     <ClInclude Include="CharReader.h" />
+    <ClInclude Include="EnumOperation.h" />
+    <ClInclude Include="InstructedProgram.h" />
+    <ClInclude Include="Instructor.h" />
     <ClInclude Include="Interpreter.h" />
+    <ClInclude Include="LabelManager.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTreeComponents.h" />
     <ClInclude Include="StackVarMamager.h" />

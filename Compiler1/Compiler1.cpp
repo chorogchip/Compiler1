@@ -3,6 +3,7 @@
 #include<sstream>
 #include"LexialAnalyzer.h"
 #include"Parser.h"
+#include"Instructor.h"
 
 int main()
 {   
@@ -27,6 +28,21 @@ else writec 66;
 
     LexialAnalyzer la{ss};
     Parser p{la, std::cout};
-    p.parse();
+    bool res_parse{p.parse()};
+    if (!res_parse) {
+        std::cout << "instruct failed" << std::endl;
+        return 0;
+    }
+    psc::Program pr{p.get_program()};
+
+    Instructor in{pr, std::cout};
+    bool res_instruct{in.instruct()};
+    if (!res_instruct) {
+        std::cout << "instruct failed" << std::endl;
+        return 0;
+    }
+    InstructedProgram ipr{in.get_program()};
+
+    std::cout << ipr << std::endl;
 }
 

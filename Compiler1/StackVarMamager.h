@@ -3,10 +3,11 @@
 #include<vector>
 #include<any>
 #include<iostream>
+#include<stdexcept>
 #include"ParseTreeComponents.h"
+
 class StackVarMamager {
 private:
-
     class Var {
     private:
         std::string name_;
@@ -17,38 +18,25 @@ private:
         Var(Var const &) = default;
         Var(Var &&) noexcept;
         bool name_is_equals(std::string const &nm) const;
+        size_t get_var_index() const;
     };
-
-    class Label {
-    private:
-        std::string name_;
-    public:
-        Label(std::string const &nm);
-        Label(psc::STLabel const &l);
-        Label(Label const &) = default;
-        Label(Label &&) noexcept;
-        bool name_is_equals(std::string const &nm) const;
-    };
-
     class Block {
     private:
         std::vector<Var> vars_;
-        std::vector<Label> labels_;
     public:
         Block() = default;
         void insert(Var &&) noexcept;
-        void insert(Label &&) noexcept;
-        bool hasVar(std::string const &nm) const;
-        bool hasLabel(std::string const &nm) const;
+        bool has_var(std::string const &nm) const;
+        size_t get_var_index(std::string const &nm) const;
     };
 private:
-    psc::Program const &pr_;
-    std::ostream &errout_;
     std::vector<Block> blocks_;
-    size_t current_block_;
-
-    void read_program();
 public:
-    StackVarMamager(psc::Program const &, std::ostream &);
+    StackVarMamager();
+    void insert(psc::Declare const &);
+    void enter_block();
+    void escape_block();
+    size_t get_var_index(psc::ID const &name) const;
+    bool has_var(std::string const &nm) const;
 };
 

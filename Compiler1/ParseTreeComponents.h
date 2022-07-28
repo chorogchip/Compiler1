@@ -6,13 +6,13 @@
 namespace psc {
 
 enum class EnumType { INT };
-enum class EnumCommand { DECL, STMT, BLOCK };
+enum class EnumCommand { DECL, LABEL, STMT, BLOCK };
 enum class EnumStatement { ST_NOP, ST_ASSIGN, ST_IF, ST_WHILE, ST_FOR,
-    ST_READ, ST_WRITE, ST_WRITEC, ST_GOTO, ST_LABEL };
+    ST_READ, ST_WRITE, ST_WRITEC, ST_GOTO };
 enum class EnumExpr { EX_NUM, EX_VAR, EX_OP_UN, EX_OP_BIN };
 enum class EnumOp { ADD, SUB, MUL, DIV, MOD, SHL, SHR, AND, ORR, XOR,
     BAN, BOR, EQL, NEQ, BIG, BIE, SML, SME,
-    PLS, MNS, NEG, BNE, ADR, PTR, PAR };
+    PLS, MNS, NEG, BNE, ADR, PTR };
 
 struct ID {
     ID(ID const &) = default;
@@ -66,6 +66,11 @@ struct Declare {
     Num address;
     Declare(Var const &, Num const &);
 };
+struct Label {
+    Label(Label const &) = default;
+    ID name;
+    Label(ID const &);
+};
 struct STAssign;
 struct STIf;
 struct STWhile;
@@ -74,7 +79,6 @@ struct STRead;
 struct STWrite;
 struct STWritec;
 struct STGoto;
-struct STLabel;
 struct Statement {
     Statement(Statement const &) = default;
     EnumStatement type;
@@ -88,7 +92,6 @@ struct Statement {
     Statement(STWrite const &);
     Statement(STWritec const &);
     Statement(STGoto const &);
-    Statement(STLabel const &);
 };
 struct Block;
 struct Command {
@@ -98,6 +101,7 @@ struct Command {
     Command(Declare const &);
     Command(Statement const &);
     Command(Block const &);
+    Command(Label const &);
 };
 struct STAssign {
     STAssign(STAssign const &) = default;
@@ -145,21 +149,21 @@ struct STWritec {
 };
 struct STGoto {
     STGoto(STGoto const &) = default;
-    ID name;
-    STGoto(ID const &);
-};
-struct STLabel {
-    STLabel(STLabel const &) = default;
-    ID name;
-    STLabel(ID const &);
+    Expr expr;
+    STGoto(Expr const &);
 };
 struct Block {
+    Block() = default;
     Block(Block const &) = default;
+    Block(Block &&) noexcept;
     std::vector<Command> commands;
 };
 struct Program {
+    Program() = default;
     Program(Program const &) = default;
+    Program(Program &&) noexcept;
     std::vector<Command> commands;
+    size_t max_address = 0U;
 };
 
 

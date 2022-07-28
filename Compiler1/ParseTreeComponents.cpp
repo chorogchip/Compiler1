@@ -15,6 +15,7 @@ OP_UN::OP_UN(OP const &opr, Expr const &ex): op{opr}, expr{ex} {}
 OP_BIN::OP_BIN(OP const &opr, Expr const &ex1, Expr const &ex2):
     op{opr}, expr1{ex1}, expr2{ex2} {}
 Declare::Declare(Var const &v, Num const &add): var{v}, address{add} {}
+Label::Label(ID const &nm): name{nm} {}
 Statement::Statement(): type(EnumStatement::ST_NOP), data{} {}
 Statement::Statement(STAssign const &ass):  type{EnumStatement::ST_ASSIGN}, data{ass} {}
 Statement::Statement(STIf const &iff):      type{EnumStatement::ST_IF}, data{iff} {}
@@ -24,10 +25,10 @@ Statement::Statement(STRead const &rd):     type{EnumStatement::ST_READ}, data{r
 Statement::Statement(STWrite const &wr):    type{EnumStatement::ST_WRITE}, data{wr} {}
 Statement::Statement(STWritec const &wrc):  type{EnumStatement::ST_WRITEC}, data{wrc} {}
 Statement::Statement(STGoto const &gotoo):  type{EnumStatement::ST_GOTO}, data{gotoo} {}
-Statement::Statement(STLabel const &labl):  type{EnumStatement::ST_LABEL}, data{labl} {}
 Command::Command(Declare const &decl): type{EnumCommand::DECL}, data{decl} {}
 Command::Command(Statement const &stmt): type{EnumCommand::STMT}, data{stmt} {}
 Command::Command(Block const &blk): type{EnumCommand::BLOCK}, data{blk} {}
+Command::Command(Label const &labl):  type{EnumCommand::LABEL}, data{labl} {}
 STAssign::STAssign(ID const &nm, Expr const &ex): name{nm}, expr{ex} {}
 STIf::STIf(Expr const &ex, Command const &cmd): expr{ex}, command{cmd}, hasElse{false} {}
 STIf::STIf(Expr const &ex, Command const &cmd, Command const &cmd_else):
@@ -39,6 +40,9 @@ STFor::STFor(Declare const &de, STAssign const &ass1, Expr const &ex,
 STRead::STRead(ID const &nm): name{nm} {}
 STWrite::STWrite(Expr const &ex): expr{ex} {}
 STWritec::STWritec(Expr const &ex): expr{ex} {}
-STGoto::STGoto(ID const &nm): name{nm} {}
-STLabel::STLabel(ID const &nm): name{nm} {}
+STGoto::STGoto(Expr const &ex): expr{ex} {}
+Block::Block(Block &&bl) noexcept:
+    commands(std::move(bl.commands)) {}
+Program::Program(Program &&p) noexcept:
+    commands(std::move(p.commands)), max_address{p.max_address} {}
 }

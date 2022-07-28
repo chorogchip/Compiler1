@@ -30,9 +30,12 @@ C : const number
 0x0001 nop ; do nothing
 0x0002 end ; end program
 
-0x0011 jmp C ; jump to C
-0x0012 jif C B ; jump to C if B is not 0
-0x0012 jnf C B ; jump to C if B is 0
+0x0011 jmc C ; jump to C
+0x0012 jic C B ; jump to C if B is not 0
+0x0013 jnc C B ; jump to C if B is 0
+0x0014 jmp A ; jump to A
+0x0015 jif A B ; jump to A if B is not 0
+0x0016 jnf A B ; jump to A if B is 0
 
 0x0021 moc A C : move C to A.
 0x0022 mov A B ; move B to A. A = B;
@@ -41,6 +44,7 @@ C : const number
 
 0x0031 neg A ; negate A
 0x0032 not A ; A = 1 iff A is 0, else A = 0
+0x0033 mns A ; make A -A
 
 0x0041 add A B ; add B to A
 0x0042 sub A B

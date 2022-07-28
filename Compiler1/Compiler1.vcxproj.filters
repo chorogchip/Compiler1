@@ -13,63 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\front_end">
+      <UniqueIdentifier>{65a6677c-b0f5-4812-ba40-beb632503055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\front_end">
+      <UniqueIdentifier>{68460fa6-9a30-414a-9343-e2b760feb1c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\back_end">
+      <UniqueIdentifier>{fa0332d5-f85f-4417-b360-797193fffdd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\back_end">
+      <UniqueIdentifier>{37f11e38-c3cd-4a90-8087-200ad784925b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\run">
+      <UniqueIdentifier>{1127a394-95cb-48f0-af14-f4a4b2d1d50a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\run">
+      <UniqueIdentifier>{e359c797-9eea-48c8-9075-539a32f67aa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LexialAnalyzer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Token.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="CharReader.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\front_end</Filter>
+    </ClCompile>
+    <ClCompile Include="LexialAnalyzer.cpp">
+      <Filter>소스 파일\front_end</Filter>
     </ClCompile>
     <ClCompile Include="Parser.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\front_end</Filter>
     </ClCompile>
     <ClCompile Include="ParseTreeComponents.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\front_end</Filter>
     </ClCompile>
-    <ClCompile Include="Interpreter.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="VMemoryPool.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Token.cpp">
+      <Filter>소스 파일\front_end</Filter>
     </ClCompile>
     <ClCompile Include="StackVarMamager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\back_end</Filter>
+    </ClCompile>
+    <ClCompile Include="Instructor.cpp">
+      <Filter>소스 파일\back_end</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <Filter>소스 파일\run</Filter>
+    </ClCompile>
+    <ClCompile Include="VMemoryPool.cpp">
+      <Filter>소스 파일\run</Filter>
+    </ClCompile>
+    <ClCompile Include="LabelManager.cpp">
+      <Filter>소스 파일\back_end</Filter>
+    </ClCompile>
+    <ClCompile Include="InstructedProgram.cpp">
+      <Filter>소스 파일\back_end</Filter>
+    </ClCompile>
+    <ClCompile Include="ByteCode.cpp">
+      <Filter>소스 파일\back_end</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LexialAnalyzer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="CharReader.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
-    <ClInclude Include="UtilChar.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="LexialAnalyzer.h">
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
     <ClInclude Include="Parser.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
     <ClInclude Include="ParseTreeComponents.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
-    <ClInclude Include="Interpreter.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Token.h">
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
-    <ClInclude Include="VMemoryPool.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="UtilChar.h">
+      <Filter>헤더 파일\front_end</Filter>
     </ClInclude>
     <ClInclude Include="StackVarMamager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="Instructor.h">
+      <Filter>헤더 파일\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter.h">
+      <Filter>헤더 파일\run</Filter>
+    </ClInclude>
+    <ClInclude Include="VMemoryPool.h">
+      <Filter>헤더 파일\run</Filter>
+    </ClInclude>
+    <ClInclude Include="LabelManager.h">
+      <Filter>헤더 파일\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="InstructedProgram.h">
+      <Filter>헤더 파일\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="EnumOperation.h">
+      <Filter>헤더 파일\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteCode.h">
+      <Filter>헤더 파일\back_end</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,69 +15,51 @@ StackVarMamager::Var::Var(psc::Declare const &d):
     name_(d.var.name.str),
     index_{static_cast<size_t>(std::stoll(d.address.number))}
 {}
-
-StackVarMamager::Label::Label(std::string const &nm):
-    name_(nm)
-{}
-StackVarMamager::Label::Label(Label &&l) noexcept:
-    name_(std::move(l.name_))
-{}
-bool StackVarMamager::Label::name_is_equals(std::string const &nm) const {
-    return nm == name_;
+size_t StackVarMamager::Var::get_var_index() const {
+    return index_;
 }
-StackVarMamager::Label::Label(psc::STLabel const &l):
-    name_(l.name.str)
-{}
 
 void StackVarMamager::Block::insert(Var &&v) noexcept {
     vars_.push_back(std::move(v));
 }
-void StackVarMamager::Block::insert(Label &&l) noexcept {
-    labels_.push_back(std::move(l));
-}
-bool StackVarMamager::Block::hasVar(std::string const &nm) const {
-    for (auto &o : vars_)
-        if (o.name_is_equals(nm))
+bool StackVarMamager::Block::has_var(std::string const &nm) const {
+    for (auto it{vars_.rbegin()}; it != vars_.rend(); ++it)
+        if (it->name_is_equals(nm))
             return true;
     return false;
 }
-bool StackVarMamager::Block::hasLabel(std::string const &nm) const {
-    for (auto& o : labels_)
-        if (o.name_is_equals(nm))
-            return true;
-    return false;
+size_t StackVarMamager::Block::get_var_index(std::string const &nm) const {
+    for (auto it{vars_.rbegin()}; it != vars_.rend(); ++it)
+        if (it->name_is_equals(nm))
+            return it->get_var_index();
+    throw std::out_of_range("variable does not exists");
+    return 0U;
 }
 
-StackVarMamager::StackVarMamager(psc::Program const &p, std::ostream &out):
-    pr_{p},
-    errout_{out},
-    blocks_({Block{}}),
-    current_block_{0U}
-{
-    try {
-        this->read_program();
-    } catch (std::bad_any_cast &e) {
-        errout_ << "error on StackVarManager reading program\n"
-                << "invalid program structure : "
-                << e.what() << std::endl;
-    } catch (std::exception &e) {
-        errout_ << "error on StackVarManager reading program\n"
-                << "unknown exception :" 
-                << e.what() << std::endl;
-    }
+StackVarMamager::StackVarMamager():
+    blocks_({Block{}})
+{}
+void StackVarMamager::insert(psc::Declare const & decl) {
+    blocks_.back().insert(Var{decl});
 }
-void StackVarMamager::read_program() {
-    for (auto &o : pr_.commands) {
-        switch (o.type) {
-        case psc::EnumCommand::DECL:
-            blocks_.back().insert(Var{std::any_cast<psc::Declare>(o)});
-            break;
-        case psc::EnumCommand::BLOCK:
-            blocks_.push_back(Block{});
-            break;  // TODO wrong structure : block must be nested, not stored in vector
-        case psc::EnumCommand::STMT:
-            break;
-            // TODO
-        }
-    }
+void StackVarMamager::enter_block() {
+    blocks_.push_back(Block{});
+}
+void StackVarMamager::escape_block() {
+    if (blocks_.size() <= 1)
+        throw std::out_of_range("escaping global block");
+    blocks_.pop_back();
+}
+size_t StackVarMamager::get_var_index(psc::ID const &name) const {
+    for (auto it{blocks_.rbegin()}; it != blocks_.rend(); ++it)
+        if (it->has_var(name.str))
+            return it->get_var_index(name.str);
+    throw std::out_of_range("variable does not exists");
+    return 0U;
+}
+bool StackVarMamager::has_var(std::string const &nm) const {
+    for (auto it{blocks_.rbegin()}; it != blocks_.rend(); ++it)
+        if (it->has_var(nm))
+            return true;
+    return false;
 }
