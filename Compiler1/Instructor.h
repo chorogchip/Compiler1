@@ -42,8 +42,8 @@ private:
     void instruct_num(psc::Num const &, size_t);
 
 public:
-    Instructor(psc::Program const&, std::ostream &);
+    Instructor(psc::Program &&, std::ostream &);
     bool instruct();
-    InstructedProgram&& get_program() noexcept;
+    InstructedProgram&& move_program() noexcept;
 };
 

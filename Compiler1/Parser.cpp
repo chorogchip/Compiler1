@@ -67,7 +67,7 @@ bool Parser::parse() {
 void Parser::get_next_token() {
     token_ = lexer_.getToken();
 }
-psc::Program &&Parser::get_program() {
+psc::Program &&Parser::move_program() {
     return std::move(program_);
 }
 std::string Parser::get_str_and_get_next_token() {

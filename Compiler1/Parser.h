@@ -56,5 +56,5 @@ private:
 public:
     Parser(LexialAnalyzer &lexer, std::ostream &error_output_stream);
     bool parse();
-    psc::Program &&get_program();
+    psc::Program &&move_program();
 };

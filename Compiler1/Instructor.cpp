@@ -1,7 +1,7 @@
 #include "Instructor.h"
 
-Instructor::Instructor(psc::Program const& p, std::ostream &out):
-    pr_(p),
+Instructor::Instructor(psc::Program &&p, std::ostream &out):
+    pr_(std::move(p)),
     vars_{},
     labels_{},
     errout_{out},
@@ -277,6 +277,6 @@ void Instructor::instruct_num(psc::Num const &num, size_t ind) {
     program_.insert(ByteCode{EnumOperation::MOC, ind, static_cast<size_t>(stoll(num.number))});
     program_.update_max_memory(ind);
 }
-InstructedProgram&& Instructor::get_program() noexcept {
+InstructedProgram&& Instructor::move_program() noexcept {
     return std::move(program_);
 }

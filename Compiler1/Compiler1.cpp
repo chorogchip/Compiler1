@@ -20,15 +20,15 @@ int main()
         std::cout << "instruct failed" << std::endl;
         return 0;
     }
-    psc::Program pr{p.get_program()};
+    psc::Program pr{p.move_program()};
 
-    Instructor in{pr, std::cout};
+    Instructor in{std::move(pr), std::cout};
     bool res_instruct{in.instruct()};
     if (!res_instruct) {
         std::cout << "instruct failed" << std::endl;
         return 0;
     };
-    InstructedProgram ipr = in.get_program();
+    InstructedProgram ipr = in.move_program();
     std::cout << ipr << std::endl;
 
     Interpreter ipt{std::move(ipr), std::cout};
