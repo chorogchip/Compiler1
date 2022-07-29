@@ -11,7 +11,7 @@ int main()
 {   
 
     std::istringstream ss{};
-    ss.str(test2 + static_cast<char>(-1));
+    ss.str(test3 + static_cast<char>(-1));
 
     LexialAnalyzer la{ss};
     Parser p{la, std::cout};

@@ -338,7 +338,7 @@ psc::Expr Parser::parse_expr9() {
 }
 psc::Expr Parser::parse_expr10() {
     psc::Expr e{parse_expr11()};
-    do if (token_ == Token{EnumTokenType::T_OPERATION_BIN, "*"}) {
+    do if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "*"}) {
         get_next_token();
         e = psc::Expr{psc::OP_BIN{psc::EnumOp::MUL, e, parse_expr11()}};
     } else if (token_ == Token{EnumTokenType::T_OPERATION_BIN, "/"}) {
@@ -364,7 +364,7 @@ psc::Expr Parser::parse_expr11() {
     } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "!"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::BNE, parse_expr11()}};
-    } else if (token_ == Token{EnumTokenType::T_OPERATION_UN, "*"}) {
+    } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "*"}) {
         get_next_token();
         return psc::Expr{psc::OP_UN{psc::EnumOp::PTR, parse_expr11()}};
     } else if (token_ == Token{EnumTokenType::T_OPERATION_BOTH, "&"}) {

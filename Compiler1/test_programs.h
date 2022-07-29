@@ -35,12 +35,18 @@ int n : 1;
 read n;
 int C : 100;
 int Cend : 1000;
-for (int i : 2; i = 1; i <= n; i = i + 1)
-	*(C + i) = 0;
+for (int i : 2; i = 0; i <= n; i = i + 1) {
+	int p : 3;
+	p = 100 + i;
+	p = &0;
+}
 for (int i : 2; i = 2; i * i <= n; i = i + 1)
-	if (*(C + i) == 0) {
-		for (int j : 3; j = i * i; j <= n; j = j + i)
-			*(C + j) = 1;
+	if (*(100 + i) == 0) {
+		for (int j : 3; j = i * i; j <= n; j = j + i) {
+			int p : 4;
+			p = 100 + j;
+			p = &1;
+		}
 		write i;
 		writec 10;
 	}

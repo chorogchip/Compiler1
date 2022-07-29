@@ -243,6 +243,7 @@ void Instructor::instruct_op_bin(psc::OP_BIN const &op_bin, size_t ind) {
     case psc::EnumOp::SUB: op = EnumOperation::SUB; break;
     case psc::EnumOp::MUL: op = EnumOperation::MUL; break;
     case psc::EnumOp::DIV: op = EnumOperation::DIV; break;
+    case psc::EnumOp::MOD: op = EnumOperation::MOD; break;
     case psc::EnumOp::SHL: op = EnumOperation::SHL; break;
     case psc::EnumOp::SHR: op = EnumOperation::SHR; break;
     case psc::EnumOp::AND: op = EnumOperation::AND; break;
@@ -269,7 +270,7 @@ void Instructor::instruct_val(psc::ID const &id, size_t ind) {
     else if (labels_.has_labl(id.str))
         program_.insert(ByteCode{EnumOperation::MOC, ind, labels_.get_labl_index(id.str)});
     else
-        program_.insert_unknown_op(ByteCode{EnumOperation::MOV, ind, 0U}, false, id.str);
+        program_.insert_unknown_op(ByteCode{EnumOperation::MOC, ind, 0U}, false, id.str);
     program_.update_max_memory(ind);
 }
 void Instructor::instruct_num(psc::Num const &num, size_t ind) {
