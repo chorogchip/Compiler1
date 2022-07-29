@@ -6,6 +6,12 @@ InstructedProgram::OP_::OP_(size_t ind, bool first, std::string const &nm):
     name(nm)
 {}
 
+InstructedProgram::InstructedProgram(InstructedProgram &&p):
+    total_memory_{p.total_memory_},
+    code_(std::move(p.code_)),
+    unindexed_op_(std::move(p.unindexed_op_)),
+    unindexed_op_compiler_(std::move(p.unindexed_op_compiler_))
+{}
 size_t InstructedProgram::get_size() const {
     return code_.size();
 }

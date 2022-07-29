@@ -22,6 +22,7 @@ private:
     std::list<OP_> unindexed_op_compiler_;
 public:
     InstructedProgram() = default;
+    InstructedProgram(InstructedProgram &&);
     size_t get_size() const;
     void update_max_memory(size_t);
     void insert(ByteCode const &);
@@ -31,5 +32,6 @@ public:
     void update_label_value_compiler(std::string const &);
     bool has_left_unindexed() const;
     friend std::ostream& operator<<(std::ostream& out, InstructedProgram const &pr);
+    friend class Interpreter;
 };
 

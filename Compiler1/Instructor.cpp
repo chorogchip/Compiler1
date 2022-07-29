@@ -112,6 +112,12 @@ void Instructor::instruct_nop() {
 void Instructor::instruct_assign(psc::STAssign const &st) {
     size_t ind_to{vars_.get_var_index(st.name)};
     size_t ind_fr{pr_.max_address + 1U};
+    if (st.expr.type == psc::EnumExpr::EX_OP_UN && std::any_cast<psc::OP_UN const &>(st.expr.data).op.op == psc::EnumOp::ADR) {
+        const auto o = std::any_cast<psc::OP_UN const &>(st.expr.data);
+        instruct_expr(std::any_cast<psc::Expr const &>(o.expr), ind_fr);
+        program_.insert(ByteCode{EnumOperation::MOA, ind_to, ind_fr});
+        return;
+    }
     instruct_expr(st.expr, ind_fr);
     program_.insert(ByteCode{EnumOperation::MOV, ind_to, ind_fr});
 }

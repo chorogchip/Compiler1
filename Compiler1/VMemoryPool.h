@@ -1,4 +1,8 @@
 #pragma once
+
+
+// this is developed for interpreting parse tree, but that type of interpreter is not needed more
+/*
 #include<vector>
 class VMemoryPool {
 private:
@@ -25,3 +29,4 @@ public:
     VMemoryPool &operator=(VMemoryPool const &) = delete;
     int &operator[](size_t i);
 };
+*/

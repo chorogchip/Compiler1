@@ -154,6 +154,7 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="ParseTreeComponents.h" />
     <ClInclude Include="StackVarMamager.h" />
+    <ClInclude Include="test_programs.h" />
     <ClInclude Include="UtilChar.h" />
     <ClInclude Include="LexialAnalyzer.h" />
     <ClInclude Include="Token.h" />

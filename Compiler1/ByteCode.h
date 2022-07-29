@@ -2,9 +2,11 @@
 #include"EnumOperation.h"
 class ByteCode {
 public:
+    typedef long long data;
+public:
     EnumOperation op;
-    size_t val1;
-    size_t val2;
+    data val1;
+    data val2;
     ByteCode();
     ByteCode(EnumOperation);
     ByteCode(EnumOperation, size_t);

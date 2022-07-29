@@ -1,5 +1,6 @@
 #include "VMemoryPool.h"
 
+/*
 VMemoryPool::Mem::Mem(size_t st, size_t en):
     start_{st},
     end_{en},
@@ -45,4 +46,4 @@ int &VMemoryPool::operator[](size_t i) {
         }
         return mem_[lo][i];
     }
-}
+}*/
