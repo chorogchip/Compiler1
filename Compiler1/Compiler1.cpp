@@ -22,7 +22,7 @@ int main()
     }
     psc::Program pr{p.move_program()};
 
-    Instructor in{std::move(pr), std::cout};
+    Instructor in{pr, std::cout};
     bool res_instruct{in.instruct()};
     if (!res_instruct) {
         std::cout << "instruct failed" << std::endl;

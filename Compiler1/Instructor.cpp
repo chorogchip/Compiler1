@@ -1,7 +1,7 @@
 #include "Instructor.h"
 
-Instructor::Instructor(psc::Program &&p, std::ostream &out):
-    pr_(std::move(p)),
+Instructor::Instructor(psc::Program &p, std::ostream &out):
+    pr_{p},
     vars_{},
     labels_{},
     errout_{out},
